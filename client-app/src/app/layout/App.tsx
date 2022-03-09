@@ -5,6 +5,7 @@ import { Activity } from "../models/Activity";
 import Navbar from "./Navbar";
 import ActivityDashboard from "../../features/activities/dashboard/ActivityDashboard";
 import agent from "../api/agent";
+import LoadingComponent from "./LoadingComponent";
 
 function App() {
   const [activities, setActivities] = useState<Activity[]>([]);
@@ -14,6 +15,8 @@ function App() {
 
   const [editMode, setEditMode] = useState(false);
 
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     agent.Activities.list().then((res) => {
       const activities: Activity[] = [];
@@ -22,6 +25,7 @@ function App() {
         activities.push(activity);
       });
       setActivities(activities);
+      setLoading(false);
     });
   }, []);
 
@@ -57,6 +61,8 @@ function App() {
   const handleDeleteActivity = (id: string) => {
     setActivities([...activities.filter((x) => x.id !== id)]);
   };
+
+  if (loading) return <LoadingComponent content={"Loading app"} />;
 
   return (
     <>
