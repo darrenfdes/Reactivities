@@ -15,7 +15,12 @@ function App() {
   return (
     <>
       <Navbar />
-      <Container style={{ marginTop: "7em" }}>
+      <Container
+        fluid={location.pathname === "/"}
+        style={
+          location.pathname !== "/" ? { marginTop: "7em" } : { marginTop: "0" }
+        }
+      >
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/activities" element={<ActivityDashboard />} />
